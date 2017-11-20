@@ -1,0 +1,53 @@
+<input type="text" id="tbCalc" /><p>
+<input type="button" value="0" id="btn0" onclick="fNum(this)" />
+<input type="button" value="1" id="btn1" onclick="fNum(this)" />
+<input type="button" value="2" id="btn2" onclick="fNum(this)" />
+<input type="button" value="3" id="btn3" onclick="fNum(this)" />
+<input type="button" value="4" id="btn4" onclick="fNum(this)" />
+<p>
+<input type="button" value="5" id="btn5" onclick="fNum(this)" />
+<input type="button" value="6" id="btn6" onclick="fNum(this)" />
+<input type="button" value="7" id="btn7" onclick="fNum(this)" />
+<input type="button" value="8" id="btn8" onclick="fNum(this)" />
+<input type="button" value="9" id="btn9" onclick="fNum(this)" />
+<p>
+<input type="button" value="+" id="btnPlus" onclick="fOp(this)" />
+<input type="button" value="-" id="btnMinus" onclick="fOp(this)" />
+<input type="button" value="*" id="btnMult" onclick="fOp(this)" />
+<input type="button" value="/" id="btnDiv" onclick="fOp(this)" />
+<input type="button" value="=" id="btnRes" onclick="fOp(this)" />
+
+<%= form_tag("/", method:"post") do %>
+  <%= hidden_field_tag :a, @a %>
+  <%= hidden_field_tag :b, @b %>
+  <%= hidden_field_tag :op, @op %>
+  <%= submit_tag("Calc") %>
+  <% end %>
+  <%= @res %>
+
+<script type="text/javascript">
+    var aTxt;
+    var bTxt;
+    var opStr;
+    function fNum(p)
+    {
+        tbCalc.value += p.value;
+    }
+    function fOp(p)
+    {
+        if (p.value == '=')
+        {
+            var aNum = parseInt(aTxt);
+            var bNum = parseInt(tbCalc.value);
+            var oPer = opStr;
+            var res = CalcN(aNum, bNum, oPer);
+            tbCalc.value = res;
+        }
+        else
+        {
+            aTxt = tbCalc.value;
+            tbCalc.value = "";
+            opStr = p.value;
+        }
+    }
+</script>
