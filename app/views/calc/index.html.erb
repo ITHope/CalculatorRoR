@@ -1,3 +1,4 @@
+<form name="form">
 <input type="text" id="tbCalc" /><p>
 <input type="button" value="0" id="btn0" onclick="fNum(this)" />
 <input type="button" value="1" id="btn1" onclick="fNum(this)" />
@@ -16,7 +17,49 @@
 <input type="button" value="*" id="btnMult" onclick="fOp(this)" />
 <input type="button" value="/" id="btnDiv" onclick="fOp(this)" />
 <input type="button" value="=" id="btnRes" onclick="fOp(this)" />
+</form>
 
+
+<script type="text/javascript">
+    var aTxt;
+    var bTxt;
+    var opStr;
+
+    function fNum(p)
+    {
+        form.tbCalc.value += p.value;
+    }
+    function fOp(p)
+    {
+        if (p.value == '=')
+        {
+            var aNum = parseInt(aTxt);
+            var bNum = parseInt(form.tbCalc.value);
+            var oPer = opStr;
+            var res = CalcN(aNum, bNum, oPer);
+            form.tbCalc.value = res;
+        }
+        else
+        {
+            aTxt = form.tbCalc.value;
+            form.tbCalc.value = "";
+            opStr = p.value;
+        }
+    }
+
+    function CalcN(num1, num2, op) {
+		if(op == '+')
+			op = "%2B";
+		var req = "a="+num1+"&b="+num2+"&op="+op;
+		var rr = new XMLHttpRequest();
+		rr.open('POST', 'http://localhost:3000/?'+req, false);
+		rr.send(null);
+		return rr.responseText;
+	};
+
+</script>
+
+<!--
 <%= form_tag("/", method:"post") do %>
   <%= hidden_field_tag :a, @a %>
   <%= hidden_field_tag :b, @b %>
@@ -24,30 +67,4 @@
   <%= submit_tag("Calc") %>
   <% end %>
   <%= @res %>
-
-<script type="text/javascript">
-    var aTxt;
-    var bTxt;
-    var opStr;
-    function fNum(p)
-    {
-        tbCalc.value += p.value;
-    }
-    function fOp(p)
-    {
-        if (p.value == '=')
-        {
-            var aNum = parseInt(aTxt);
-            var bNum = parseInt(tbCalc.value);
-            var oPer = opStr;
-            var res = CalcN(aNum, bNum, oPer);
-            tbCalc.value = res;
-        }
-        else
-        {
-            aTxt = tbCalc.value;
-            tbCalc.value = "";
-            opStr = p.value;
-        }
-    }
-</script>
+-->
